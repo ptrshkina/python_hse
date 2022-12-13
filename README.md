@@ -10,14 +10,10 @@
 
 ```sh
 # Windows
-pip install matplotlib
-pip install pandas
-pip install scipy
+pip install matplotlib pandas numpy scipy scikit-learn seaborn
 
 # Mac OS
-pip3 install matplotlib
-pip3 install pandas
-pip3 install scipy
+pip3 install matplotlib pandas numpy scipy scikit-learn seaborn
 ```
 
 # Run application
