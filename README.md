@@ -8,9 +8,11 @@
 
 ```sh
 # Windows
+pip install matplotlib
 pip install pandas
 
 # Mac OS
+pip3 install matplotlib
 pip3 install pandas
 ```
 
