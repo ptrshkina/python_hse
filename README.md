@@ -6,12 +6,20 @@
 
 # Add libraries
 
-```
+```sh
+# Windows
+pip install pandas
+
+# Mac OS
 pip3 install pandas
 ```
 
 # Run application
 
-```
+```sh
+# Windows
+python main.py
+
+# Mac OS
 python3 main.py
 ```
