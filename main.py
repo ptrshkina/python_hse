@@ -31,7 +31,7 @@ null = np.nan
 def checkValidity():  # Check if there are any null values in dataset
     isValid = not dataFrame.isnull().values.any()
     print('Data is',
-          f"{bcolors.GREEN}valid{bcolors.END}" if isValid else f"{bcolors.GREEN}invalid{bcolors.END}")
+          f"{bcolors.GREEN}valid{bcolors.END}" if isValid else f"{bcolors.RED}invalid{bcolors.END}")
     return isValid
 
 
@@ -77,7 +77,6 @@ if (not checkValidity()):
                 f'Empty {bcolors.BLUE}AGE_OF_STORE{bcolors.END} found:', row)
             notEmpty = dataFrame.loc[(
                 dataFrame['LocationID'] == row[2]) & (dataFrame['AgeOfStore'].notnull())].values[0]
-            print(notEmpty)
             dataFrame.iat[i, 3] = notEmpty[3]
             print(f'    Filled with "{dataFrame.values[i][3]}"')
         # If SalesInThousands is empty
@@ -107,8 +106,8 @@ print(f'Ejections removed:',
 print(f'\n\n{bcolors.BOLD}Checking data for normality...{bcolors.END}')
 alpha = 0.05
 # Visual method
-smallMarketDataFrame[['SalesInThousands']].plot.density(alpha=alpha
-                                                        ).get_figure().savefig('distribution_normal', dpi=300)
+smallMarketDataFrame[['SalesInThousands']].plot.density(
+).get_figure().savefig('distribution_normal', dpi=300)
 # Shapiro-Wilk criteria
 stat, p = sc.stats.shapiro(smallMarketDataFrame['SalesInThousands'])
 print(f'[Shapiro-Wilk] Alpha={alpha} Statistics={stat}, p-value={p}')
@@ -124,17 +123,17 @@ print(f'    Distribution is',
 print(f'\n\n{bcolors.BOLD}Normalize data...{bcolors.END}')
 dataColumns = ["MarketID", "LocationID", "AgeOfStore",
                "Promotion", "Week", "SalesInThousands"]
-normalize = preprocessing.normalize(dataFrame[dataColumns], axis=0)
+normalize = preprocessing.normalize(filteredDataFrame[dataColumns], axis=0)
 normalizedDataFrame = pd.DataFrame(normalize, columns=dataColumns)
-normalizedDataFrame['MarketID'] = dataFrame.iloc[:, [0]]
-normalizedDataFrame['LocationID'] = dataFrame.iloc[:, [2]]
-normalizedDataFrame['Week'] = dataFrame.iloc[:, [5]]
+normalizedDataFrame['MarketID'] = filteredDataFrame.iloc[:, [3]]
+normalizedDataFrame['LocationID'] = filteredDataFrame.iloc[:, [2]]
+normalizedDataFrame['Week'] = filteredDataFrame.iloc[:, [5]]
 print(normalizedDataFrame)
 
 # 12: Buld correlation matrix
 print(f'\n\n{bcolors.BOLD}Build correlation matrix...{bcolors.END}')
 fig, ax = plt.subplots()
-sns.heatmap(dataFrame.corr(method='pearson', numeric_only='true'), annot=True, fmt='.4f',
+sns.heatmap(normalizedDataFrame.corr(method='pearson', numeric_only='true'), annot=True, fmt='.4f',
             cmap=plt.get_cmap('coolwarm'), cbar=False, ax=ax)
 ax.set_yticklabels(ax.get_yticklabels(), rotation="horizontal")
 plt.savefig('correlation_matrix.png', bbox_inches='tight', pad_inches=0.0)
