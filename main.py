@@ -144,12 +144,13 @@ plt.savefig('correlation_matrix.png', bbox_inches='tight', pad_inches=0.0)
 print(f'Matrix built')
 
 # 13: Linear regression model
+print(f'\n\n{bcolors.BOLD}Training linear regression model...{bcolors.END}')
 independant = normalizedDataFrame.loc[:, ('MarketID',  'LocationID')]
 dependant = normalizedDataFrame.loc[:, 'SalesInThousands']
 # Split for training and test models and check if correct
 independantTrain, independantTest, dependantTrain, dependantTest = train_test_split(
     independant, dependant, test_size=0.9)
-# Build model    
+# Build model
 model = LinearRegression().fit(independantTrain, dependantTrain)
 dependantPrediction = model.predict(independantTest)
 print(dependantPrediction)
@@ -158,4 +159,5 @@ dependantTest = np.exp(dependantTest)
 dependantPrediction = np.exp(dependantPrediction)
 mse = mean_squared_error(dependantTest, dependantPrediction)
 mae = mean_absolute_error(dependantTest, dependantPrediction)
-print('mse: %.3f, mae: %.3f' % (mse, mae))
+print(f'Mean squared error: {bcolors.UNDERLINE}{mse}{bcolors.END}',
+      f'Mean absolute error: {bcolors.UNDERLINE}{mae}{bcolors.END}')
