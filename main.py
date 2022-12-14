@@ -47,6 +47,8 @@ dataFrame.groupby('AgeOfStore').median(numeric_only=True).plot.bar(
     stacked=True, y="Promotion").get_figure().savefig('bar_age_promotion', dpi=300)
 dataFrame.groupby('Promotion').mean(numeric_only=True).plot.bar(
     stacked=True, y="SalesInThousands").get_figure().savefig('bar_promotion_sales', dpi=300)
+dataFrame.groupby('MarketSize').sum().plot.pie(y='SalesInThousands', figsize=(
+    5, 5),).get_figure().savefig('pie_market_volume', dpi=300)
 print('Plots generated')
 
 # 7. Process data with complicated filter
