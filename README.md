@@ -6,6 +6,8 @@
 
 [Index in groupping issue](https://stackoverflow.com/questions/19202093/how-to-select-columns-from-groupby-object-in-pandas)
 
+[Guide to linear regression](https://python-school.ru/blog/linear-regression-basis/)
+
 # Add libraries
 
 ```sh

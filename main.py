@@ -7,6 +7,9 @@ import scipy as sc
 import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn import preprocessing
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, mean_absolute_error
 
 # Clear console on application start
 os.system('cls' if os.name == 'nt' else 'clear')
@@ -96,11 +99,12 @@ smallMarketDataFrame = dataFrame.loc[dataFrame['MarketSize'] == 'Small']
 # Make distribution plot
 smallMarketDataFrame[['SalesInThousands']].plot.hist(
     bins=20, alpha=0.5).get_figure().savefig('distribution', dpi=300)
-# Filter values lower than 40
-filteredDataFrame = smallMarketDataFrame.loc[dataFrame['SalesInThousands'] > 40]
+# Filter values lower than trust interval
+trustInterval = 45
+filteredDataFrame = smallMarketDataFrame.loc[dataFrame['SalesInThousands'] > trustInterval]
 print(filteredDataFrame)
-print(f'Ejections removed:',
-      smallMarketDataFrame.loc[dataFrame['SalesInThousands'] < 40].values)
+print(f'Ejections removed:\n',
+      smallMarketDataFrame.loc[dataFrame['SalesInThousands'] < trustInterval].values)
 
 # 10: Check if data of small market is normal distributed
 print(f'\n\n{bcolors.BOLD}Checking data for normality...{bcolors.END}')
@@ -125,9 +129,9 @@ dataColumns = ["MarketID", "LocationID", "AgeOfStore",
                "Promotion", "Week", "SalesInThousands"]
 normalize = preprocessing.normalize(filteredDataFrame[dataColumns], axis=0)
 normalizedDataFrame = pd.DataFrame(normalize, columns=dataColumns)
-normalizedDataFrame['MarketID'] = filteredDataFrame.iloc[:, [3]]
-normalizedDataFrame['LocationID'] = filteredDataFrame.iloc[:, [2]]
-normalizedDataFrame['Week'] = filteredDataFrame.iloc[:, [5]]
+normalizedDataFrame['MarketID'] = filteredDataFrame.iloc[:, [0]].values
+normalizedDataFrame['LocationID'] = filteredDataFrame.iloc[:, [2]].values
+normalizedDataFrame['Week'] = filteredDataFrame.iloc[:, [5]].values
 print(normalizedDataFrame)
 
 # 12: Buld correlation matrix
@@ -140,3 +144,18 @@ plt.savefig('correlation_matrix.png', bbox_inches='tight', pad_inches=0.0)
 print(f'Matrix built')
 
 # 13: Linear regression model
+independant = normalizedDataFrame.loc[:, ('MarketID',  'LocationID')]
+dependant = normalizedDataFrame.loc[:, 'SalesInThousands']
+# Split for training and test models and check if correct
+independantTrain, independantTest, dependantTrain, dependantTest = train_test_split(
+    independant, dependant, test_size=0.9)
+# Build model    
+model = LinearRegression().fit(independantTrain, dependantTrain)
+dependantPrediction = model.predict(independantTest)
+print(dependantPrediction)
+# Check workability of metrics
+dependantTest = np.exp(dependantTest)
+dependantPrediction = np.exp(dependantPrediction)
+mse = mean_squared_error(dependantTest, dependantPrediction)
+mae = mean_absolute_error(dependantTest, dependantPrediction)
+print('mse: %.3f, mae: %.3f' % (mse, mae))
