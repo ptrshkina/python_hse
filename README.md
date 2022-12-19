@@ -5,7 +5,7 @@ Formulation of the problem can be found in [task.pdf](task.pdf)
 
 **Author**: Elizaveta Petrukhina, Anastasiia Kireecheva
 
-## Target:
+## Target
 
 To determine, based on the selected dataframe, the relationship between the quantity of sales of a particular store on factors such as the size and location of the market, as well as the location of a particular store, its age and level of promotion
 
@@ -14,7 +14,7 @@ To determine, based on the selected dataframe, the relationship between the quan
 **H0:**
 Quantity of sales depends on the level of promotion and the age of store
 
-**Result**
+**Result:**
 hypothesis was not confirmed since there was a weak positive correlation between the number of sales and the expected factors, therefore quantity of sales depends on such variables as market id (region of a particular market) and location id (location of a particular store in the market)
 
 ## Tasks
