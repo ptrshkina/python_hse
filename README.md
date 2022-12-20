@@ -32,6 +32,19 @@ hypothesis was not confirmed since there was a weak positive correlation between
 |   city   |   city market size   |   store    | store age  | store promotion level | week number |   weekly sales   |
 |  index   | Small, Medium, Large |   index    |  positive  |          1-3          |     1-4     |      0-100       |
 
+# Result charts
+## Bar and pie charts
+<img src="./bar_age_promotion.png" width=50% height=50%>
+<img src="./bar_promotion_sales.png" width=50% height=50%>
+<img src="./pie_market_volume.png" width=50% height=50%>
+
+## Correlation matrix
+<img src="./correlation_matrix.png" width=50% height=50%>
+
+## Distribution graphs
+<img src="./distribution.png" width=50% height=50%>
+<img src="./distribution_normal.png" width=50% height=50%>
+
 # Useful links
 
 [Download python](https://www.python.org/downloads/)
